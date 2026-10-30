@@ -6,7 +6,7 @@
 
 > **English** — A self-writing memory plugin for DeepSeek Harness: it decides what to remember on its own, then recalls by topic before each turn. Pure local, zero dependency, no model, no API. Retrieval is lexical (2-gram + IDF + inverted index + co-occurrence learning), deterministic and explainable — every hit tells you which words matched and in which field. Ten tools plus an interactive star-nebula canvas in the sidebar.
 
-**v0.2.2** · MIT · 零依赖 · 纯本地 · 不调模型 · 不联网
+**v0.2.3** · MIT · 零依赖 · 纯本地 · 不调模型 · 不联网
 
 ![记忆星云](docs/galaxy.jpg)
 
