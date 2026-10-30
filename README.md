@@ -2,7 +2,7 @@
 
 给 [DeepSeek Harness](https://github.com/deepseek-ai) 桌面端用的长期记忆插件。
 
-**v0.2.0** · MIT · 零依赖 · 纯本地 · 不调模型 · 不联网
+**v0.2.1** · MIT · 零依赖 · 纯本地 · 不调模型 · 不联网
 
 ![记忆星云](docs/galaxy.jpg)
 
