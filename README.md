@@ -145,6 +145,10 @@ dsh plugin --profile desktop add link:/path/to/dsh-memory-net
 
 或放进 `~/.dsh/plugins/`，用插件管理器安装。装完重启 DSH，协议、面板、工具都会自动注册。
 
+**装好之后是空的。** 仓库里只有代码，没有一条记忆——第一句值得记的话进来，它才创建 `~/.dsh/memory-net/graph.json`，从 0 条开始长。上面截图里那 116 条是作者自己用了几天攒的，不会跟着插件走。
+
+想搬走或者搬过来，用 `memory_export` / `memory_import`；想换存放位置，设环境变量 `DSH_MEMORY_NET_DIR`。
+
 ---
 
 ## 数据
