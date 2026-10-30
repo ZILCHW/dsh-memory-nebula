@@ -110,6 +110,52 @@ ok('虚词 2-gram 被过滤', !tokenize('人的东西').has('人的'))
 ok('实词保留', tokenize('时间怎么取').has('时间'))
 ok('停用词不出现', !tokenize('这个怎么办').has('这个'))
 
+// ---- 合并 / 导出导入 / 时间回溯 ----
+{
+  const s = new MemoryStore(mkdtempSync(join(tmpdir(), 'mn-merge-')))
+  const a = s.upsert({ title: 'merged alpha', body: 'first body', tags: ['x'], kind: 'fact', layer: 'data' }).node
+  const b = s.upsert({ title: 'merged beta', body: 'second body', tags: ['y'], kind: 'fact', layer: 'data' }).node
+  s.link(a.id, b.id, 'related')
+  const merged = s.merge([a.id, b.id])
+  ok('merge 成功', merged.ok === true)
+  ok('merge 保留最早那条', merged.node.id === a.id)
+  ok('merge 正文拼接', merged.node.body.includes('first body') && merged.node.body.includes('second body'))
+  ok('merge 标签并集', merged.node.tags.includes('x') && merged.node.tags.includes('y'))
+  ok('merge 只留一条', s.nodes().length === 1)
+  ok('merge 自环被清掉', s.edges().length === 0)
+  ok('merge 单条拒绝', s.merge([a.id]).ok === false)
+  ok('merge 空数组拒绝', s.merge([]).ok === false)
+}
+{
+  const s = new MemoryStore(mkdtempSync(join(tmpdir(), 'mn-export-')))
+  const n = s.upsert({ title: 'export me', body: 'body', tags: ['t'], kind: 'fact', layer: 'data' }).node
+  const payload = { version: 2, nodes: s.nodes(), edges: s.edges() }
+  ok('export 有节点', payload.nodes.length === 1 && payload.nodes[0].id === n.id)
+  const s2 = new MemoryStore(mkdtempSync(join(tmpdir(), 'mn-import-')))
+  for (const raw of payload.nodes) {
+    s2.upsert({ id: raw.id, title: raw.title, body: raw.body, kind: raw.kind, layer: raw.layer, tags: raw.tags })
+  }
+  ok('import 建回来', s2.nodes().length === 1 && s2.node(n.id) !== null)
+  s2.upsert({ id: n.id, title: 'export me v2' })
+  ok('import 已存在则更新', s2.nodes().length === 1 && s2.node(n.id).title === 'export me v2')
+}
+{
+  const s = new MemoryStore(mkdtempSync(join(tmpdir(), 'mn-time-')))
+  const old = s.upsert({ title: 'old note', body: 'from the past', tags: ['past'], kind: 'fact', layer: 'data' }).node
+  const graph = s.load()
+  for (const node of graph.nodes) {
+    if (node.id === old.id) node.createdAt = Date.parse('2026-01-01T00:00:00Z')
+  }
+  s.save()
+  const fresh = s.upsert({ title: 'new note', body: 'from now', tags: ['now'], kind: 'fact', layer: 'data' }).node
+  const cut = Date.parse('2026-06-01T00:00:00Z')
+  const before = s.search('note', { before: cut })
+  ok('before 只看过去的', before.length === 1 && before[0].node.id === old.id)
+  const after = s.search('note', { after: cut })
+  ok('after 只看近的', after.length === 1 && after[0].node.id === fresh.id)
+  ok('不带时间过滤就是全部', s.search('note').length === 2)
+}
+
 rmSync(dir, { recursive: true, force: true })
 console.log(`\n通过 ${pass}，失败 ${fail}`)
 process.exit(fail === 0 ? 0 : 1)

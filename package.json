@@ -1,6 +1,6 @@
 {
   "name": "dsh-memory-nebula",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "记忆星云 · 会自己记事、按话题想起来：侧栏星云图 + 7 个记忆工具 + 权重衰减遗忘，纯本地零依赖",
   "type": "module",
   "main": "lib/index.js",

@@ -4,9 +4,9 @@
 
 给 [DeepSeek Harness](https://github.com/deepseek-ai) 桌面端用的长期记忆插件。
 
-> **English** — A self-writing memory plugin for DeepSeek Harness: it decides what to remember on its own, then recalls by topic before each turn. Pure local, zero dependency, no model, no API. Retrieval is lexical (2-gram + IDF + inverted index + co-occurrence learning), deterministic and explainable — every hit tells you which words matched and in which field. Seven tools plus an interactive star-nebula canvas in the sidebar.
+> **English** — A self-writing memory plugin for DeepSeek Harness: it decides what to remember on its own, then recalls by topic before each turn. Pure local, zero dependency, no model, no API. Retrieval is lexical (2-gram + IDF + inverted index + co-occurrence learning), deterministic and explainable — every hit tells you which words matched and in which field. Ten tools plus an interactive star-nebula canvas in the sidebar.
 
-**v0.2.1** · MIT · 零依赖 · 纯本地 · 不调模型 · 不联网
+**v0.2.2** · MIT · 零依赖 · 纯本地 · 不调模型 · 不联网
 
 ![记忆星云](docs/galaxy.jpg)
 
@@ -87,17 +87,20 @@ score = 字面(归一化) × 1.0
 
 ---
 
-## 七个工具
+## 十个工具
 
 | 工具 | 干什么 |
 | --- | --- |
 | `memory_save` | 记一条。自动去重、自动和相似记忆连线；`closes` 顺手收掉一条待办 |
-| `memory_search` | 检索。返回 `belongsTo`（属于哪层哪类）和 `links`（连着的几条） |
+| `memory_search` | 检索。返回 `belongsTo`（属于哪层哪类）和 `links`（连着的几条）；`before` 可以只看某个日期之前的记忆 |
 | `memory_get` | 按 id 取全文，连带邻居 |
 | `memory_link` | 手动连两条 |
 | `memory_forget` | 删掉一条（连同连线） |
 | `memory_pin` | 钉住 / 取消钉住 |
 | `memory_stats` | 总量、连线、孤立、各层各类分布 |
+| `memory_merge` | 同一件事记了两遍，合成一条：正文去重拼接、标签并集、连线重定向 |
+| `memory_export` | 导出成可迁移的 JSON（可只导某一层或某一类） |
+| `memory_import` | 导入导出的 JSON，已存在就更新，不存在就新建 |
 
 **自动连线**只在标题语义或标签重合时才连，并且按 IDF 加权——越是大众词越不算数。这样连出来的都是真亲戚。
 
@@ -181,7 +184,7 @@ cordis.patch.yml 挂载点
 npm test
 ```
 
-三套纯 Node 测试：边界与异常 38 项、五种视图 × 四种聚焦的布局矩阵、组件渲染冒烟（专门抓 `node --check` 查不出、只在真机白屏的那类错）。CI 在 Node 20 / 22 上自动跑。
+三套纯 Node 测试：边界与异常 52 项、五种视图 × 四种聚焦的布局矩阵、组件渲染冒烟（专门抓 `node --check` 查不出、只在真机白屏的那类错）。CI 在 Node 20 / 22 上自动跑。
 
 ---
 
