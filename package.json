@@ -47,6 +47,6 @@
     "retrieval"
   ],
   "scripts": {
-    "test": "node tests/edge.mjs && node tests/layout.mjs"
+    "test": "node tests/edge.mjs && node tests/layout.mjs && node tests/render.mjs"
   }
 }
