@@ -45,5 +45,8 @@
     "plugin",
     "graph",
     "retrieval"
-  ]
+  ],
+  "scripts": {
+    "test": "node tests/edge.mjs && node tests/layout.mjs"
+  }
 }
