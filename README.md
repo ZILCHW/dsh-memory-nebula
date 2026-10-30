@@ -6,7 +6,7 @@
 
 > **English** — A self-writing memory plugin for DeepSeek Harness: it decides what to remember on its own, then recalls by topic before each turn. Pure local, zero dependency, no model, no API. Retrieval is lexical (2-gram + IDF + inverted index + co-occurrence learning), deterministic and explainable — every hit tells you which words matched and in which field. Ten tools plus an interactive star-nebula canvas in the sidebar.
 
-**v0.2.3** · MIT · 零依赖 · 纯本地 · 不调模型 · 不联网
+**v0.2.4** · MIT · 零依赖 · 纯本地 · 不调模型 · 不联网
 
 ![记忆星云](docs/galaxy.jpg)
 
@@ -184,7 +184,7 @@ cordis.patch.yml 挂载点
 npm test
 ```
 
-三套纯 Node 测试：边界与异常 52 项、五种视图 × 四种聚焦的布局矩阵、组件渲染冒烟（专门抓 `node --check` 查不出、只在真机白屏的那类错）。CI 在 Node 20 / 22 上自动跑。
+四套纯 Node 测试：边界与异常 52 项、五种视图 × 四种聚焦的布局矩阵、组件渲染冒烟（专门抓 `node --check` 查不出、只在真机白屏的那类错）、数据进出是否原样（500 条批量导入后逐条核对字段、导出再导入等价）。CI 在 Node 20 / 22 上自动跑。
 
 ---
 
