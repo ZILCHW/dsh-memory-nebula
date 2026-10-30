@@ -159,6 +159,45 @@ check('GraphCanvas 空数据', () => {
   })
 })
 
+check('GraphCanvas 标签关掉（0 档）', () => {
+  const out = ui.GraphCanvas({
+    graph: { nodes, edges },
+    layoutNonce: 0,
+    hiddenLayers: new Set(),
+    hiddenKinds: new Set(),
+    query: '',
+    onlyPinned: false,
+    selectedId: '',
+    onSelect: () => {},
+    sizeScale: 1,
+    labelScale: 0,
+    autoRotate: false,
+    view: 'rings',
+    hitIds: null
+  })
+  if (!out) throw new Error('标签 0 档把画布搞没了')
+})
+
+check('GraphCanvas 四档标签值都认', () => {
+  for (const scale of [0, 0.55, 1, 1.6, undefined, null]) {
+    ui.GraphCanvas({
+      graph: { nodes, edges },
+      layoutNonce: 0,
+      hiddenLayers: new Set(),
+      hiddenKinds: new Set(),
+      query: '',
+      onlyPinned: false,
+      selectedId: 'n1',
+      onSelect: () => {},
+      sizeScale: 1,
+      labelScale: scale,
+      autoRotate: false,
+      view: 'rings',
+      hitIds: null
+    })
+  }
+})
+
 check('MemoryPanel 首屏', () => {
   const out = ui.MemoryPanel()
   if (!out) throw new Error('MemoryPanel 没返回节点')
